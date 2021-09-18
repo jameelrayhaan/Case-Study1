@@ -1,0 +1,77 @@
+#include<iostream>
+#include<fstream>
+using namespace std;
+
+int main(int argc,char* argv[])
+{
+        //checking if there are 2 arguments
+        if(argc != 2)
+        {
+                cout<<"\nPlease enter one filename";
+                return 0;
+        }
+        else
+        {
+                //initializing senentance array with0 and word count as 1 so that last word will also be counted
+                int w_count=1,s_count=0,sen[120],i,j;
+                char ch;
+
+                ifstream file;//object of class ifstream
+                //file openin in read modeg
+                file.open(argv[1],ios::in);
+
+                if(!file)
+                {
+                        cout<<"file does not exist!!"<<endl;
+                        return 0;
+                }
+
+
+                while(!file.eof())
+                {
+                        file.get(ch);
+                        //to chech if space reached
+                        if(ch == ' ')
+                        {
+                                //if reached increment value of word count
+                                ++w_count;
+                        }
+                        //to check if newline reached
+                        if(ch == '\n')
+                        {
+                                //in this case word count made as 1
+                                w_count = 1;
+                        }
+                        //to check if full stop reached
+                        else if(ch == '.')
+                        {
+                                //if reached sentance array is given the value of word count
+                                sen[s_count] = w_count;
+                                //incrementing sentance count that is array index
+                                ++s_count;
+                                //initializing word count as 0 because in case of paragraph there is space after full stop and it gets incremented
+                                w_count = 0;
+                        }
+                }
+                //closing file
+                file.close();
+                //printing histogram
+                cout<<"\n\tHISTOGRAM"<<endl;
+                cout<<"\n----------------------------";
+                //printing sentance and word
+                cout<<"\n\nSentence\tWords\n";
+                //selection of row with limit as sentance array index
+                for(i=0;i<s_count;i++)
+                {
+                        //i+1-  to print sentence number
+                        cout<<i+1<<"-"<<"\t";
+                        //to print star from word count in sentance array
+                        for(j=0;j<sen[i];j++)
+                        {
+                                cout<<"*"<<" ";
+                        }
+                        cout<<"\n";
+                }
+        }
+        return 0;
+}
